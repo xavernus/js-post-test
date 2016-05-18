@@ -1,0 +1,7 @@
+html, body { padding: 0px; margin: 0px; }
+
+#sidebar { height: 100%; width: 30%; overflow-x: hidden; overflow-y: scroll; background-color: #fafafa; float: left; }
+.email-item { padding: 10px; border-bottom: 1px solid black; cursor: pointer; }
+.email-item h3 { margin: 5px; margin-left: 0px; }
+
+#content { float: right; width: 70%; }

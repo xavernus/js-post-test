@@ -5,27 +5,40 @@ var emailList = {
   	showUnread: false,
   	sortDateOrder: false,
 
+  	showMail: function(index) {
+
+  		document.getElementById("content").innerHTML = this.emailList[index].content;
+  	},
+
   	renderList: function() {
 
   		var showUnread = this.showUnread;
 
   		document.getElementById("sidebar").innerHTML = "";
 
-  		this.emailList.forEach(function(email) {
+  		this.emailList.forEach(function(email, index) {
 
   			if(showUnread) {
 
   				if(!email.read) {
 
   					var emailDiv = document.createElement("div");
-    				emailDiv.innerHTML = "<span>"+email.subject+"</span><br><span>"+email.fromName+"</span>";
+  					emailDiv.className += "email-item";
+    				emailDiv.innerHTML = "<h3>"+email.fromName+"</h3><span>"+email.subject+"</span>";
+
+    				emailDiv.onclick = function() { emailList.showMail(index); }
+
     				document.getElementById("sidebar").appendChild(emailDiv);
   				}
 
   			} else {
 
   				var emailDiv = document.createElement("div");
-    			emailDiv.innerHTML = "<span>"+email.subject+"</span><br><span>"+email.fromName+"</span>";
+  				emailDiv.className += "email-item";
+    			emailDiv.innerHTML = "<h3>"+email.fromName+"</h3><span>"+email.subject+"</span>";
+
+    			emailDiv.onclick = function() { emailList.showMail(index); }
+
     			document.getElementById("sidebar").appendChild(emailDiv);
   			}
 		});
@@ -81,5 +94,5 @@ xhr.onreadystatechange = function() {
 switchUnreadElement = document.getElementById("switchUnread");
 switchUnreadElement.onclick = function() { emailList.switchUnread(); }
 
-switchUnreadElement = document.getElementById("sortDate");
-switchUnreadElement.onclick = function() { emailList.sortDate(); }
+switchDateSort = document.getElementById("sortDate");
+switchDateSort.onclick = function() { emailList.sortDate(); }
