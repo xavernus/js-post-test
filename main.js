@@ -1,6 +1,6 @@
 //объект списка почтовых адресов
 
-var EmailList = {
+var emailList = {
 
   	/*this.sortDateASC = function() {
 
@@ -25,23 +25,19 @@ var EmailList = {
   		}
   	}*/
 
-  	this.showUnread = false;
+  	showUnread: false,
 
-  	this.switchUnread = function() {
+  	renderList: function() {
 
-  		console.log('switch unread');
-
-  		this.showUnread = !this.showUnread;
-  		this.renderList();
-  	}
-
-  	this.renderList = function() {
+  		var showUnread = this.showUnread;
 
   		console.log('render list');
 
+  		document.getElementById("sidebar").innerHTML = "";
+
   		this.emailList.forEach(function(email) {
 
-  			if(this.showUnread) {
+  			if(showUnread) {
 
   				if(!email.read) {
 
@@ -57,37 +53,36 @@ var EmailList = {
     			document.getElementById("sidebar").appendChild(emailDiv);
   			}
 		});
-  	};
+  	},
 
-  	this.loadList = function() {
+  	switchUnread: function() {
 
-		var xhr = new XMLHttpRequest();
-		xhr.open('GET', '/emails.json');
-		xhr.send(null);
-
-		xhr.onreadystatechange = function () {
-
-		  	if (xhr.readyState === 4) {
-		    	if (xhr.status === 200) {
-
-		      		this.emailList = JSON.parse(xhr.responseText);
-		      		this.renderList();
-		      		
-		    	} else {
-		      		console.log('Error: ' + xhr.status);
-		    	}
-		  	}
-		};
-	}
+  		this.showUnread = !this.showUnread;
+  		this.renderList();
+  	},
 }
 
 //аякс-запрос к бэкенду при загрузке страницы
 
-var myList = new EmailList();
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/emails.json');
+xhr.send(null);
 
-myList.loadList();
+xhr.onreadystatechange = function() {
+
+  	if (xhr.readyState === 4) {
+    	if (xhr.status === 200) {
+
+      		emailList.emailList = JSON.parse(xhr.responseText);
+      		emailList.renderList();
+      		
+    	} else {
+      		console.log('Error: ' + xhr.status);
+    	}
+  	}
+};
 
 //привязка событий
 
 switchUnreadElement = document.getElementById("switchUnread");
-switchUnreadElement.onclick = myList.switchUnread;
+switchUnreadElement.onclick = function() { emailList.switchUnread(); }
