@@ -4,13 +4,29 @@
 		<link rel="stylesheet" href="/styles.css">
 	</head>
 	<body>
-		<button id="switchUnread">Показать прочитанные</button>
-		<button id="sortDate">Сортировать по дате</button>
+		<div class="controls">
+			<button id="switchUnread">Показать непрочитанные</button>
+			<button id="sortDate">Сортировать по дате: по возрастанию</button>
+		</div>
 		<section id="sidebar">
 
 		</section>
 		<section id="content">
-
+			<div class="content-inner">
+				<div class="mail-string">
+					<b>От:</b> <span id="email-fromName"></span>
+				</div>
+				<div class="mail-string">
+					<b>E-mail:</b> <span id="email-fromEmail"></span>
+				</div>
+				<div class="mail-string">
+					<b>Получено:</b> <span id="email-dateReceived"></span>
+				</div>
+				<div class="mail-string">
+					<b>Тема:</b> <span id="email-subject"></span>
+				</div>
+				<div id="email-content"></div>
+			</div>
 		</section>
 
 		<script src="/main.js"></script>

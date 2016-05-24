@@ -1,7 +1,14 @@
-html, body { padding: 0px; margin: 0px; }
+html, body { padding: 0px; margin: 0px; font-family: Arial, Helvetica, sans-serif; }
 
-#sidebar { height: 100%; width: 30%; overflow-x: hidden; overflow-y: scroll; background-color: #fafafa; float: left; }
-.email-item { padding: 10px; border-bottom: 1px solid black; cursor: pointer; }
-.email-item h3 { margin: 5px; margin-left: 0px; }
+#switchUnread { border: none; background-color: #6FA15D; height: 30px; line-height: 30px; color: white; margin: 10px 10px 10px 10px; cursor: pointer; }
+#sortDate { border: none; background-color: #6FA15D; height: 30px; line-height: 30px; color: white; margin: 10px 10px 10px 0px; cursor: pointer; }
 
-#content { float: right; width: 70%; }
+#sidebar { height: 100%; width: 30%; overflow-x: hidden; overflow-y: scroll; float: left; }
+.email-item { font-size: 14px; padding: 10px; margin: 10px; background-color: #F5F5FA; cursor: pointer; }
+.email-item:nth-child(1) { margin-top: 0px; }
+.email-item.unread { background-color: #D5DFE8; }
+.email-item h3 { font-size: 18px; margin: 5px; margin-left: 0px; display: inline-block; }
+
+#content { float: right; width: 70%; font-size: 14px; padding-left: 10px; box-sizing: border-box; }
+.content-inner { background-color: #F0F4F8; padding: 10px; }
+.mail-string { margin-bottom: 10px; }
