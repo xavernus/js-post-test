@@ -1,3 +1,56 @@
+window.animationIntervals = [];
+
+//анимация появления
+
+function animationShow(id, time, callback) {
+
+  clearInterval(window.animationIntervals[id]);
+
+  var elem = document.getElementById(id);
+
+  elem.style.opacity = 0;
+  elem.style.display = 'block';
+
+  time = time/100;
+
+  window.animationIntervals[id] = setInterval(function() {
+    
+    elem.style.opacity = parseFloat(elem.style.opacity) + 0.01;
+
+    if(elem.style.opacity == 1) {
+      console.log('clear');
+      clearInterval(window.animationIntervals[id]);
+
+      callback();
+    }
+  }, time);
+}
+
+//анимация исчезновения
+
+function animationHide(id, time, callback) {
+
+  clearInterval(window.animationIntervals[id]);
+
+  var elem = document.getElementById(id);
+
+  time = time/100;
+
+  window.animationIntervals[id] = setInterval(function() {
+    elem = document.getElementById(id);
+    elem.style.opacity = parseFloat(elem.style.opacity) - 0.01;
+
+    if(elem.style.opacity == 0) {
+      clearInterval(window.animationIntervals[id]);
+      elem.style.display = 'none';
+
+      callback();
+    }
+  }, time);
+}
+
+//форматирование даты
+
 function formatDate(time) {
 
   var dateOptions = {
@@ -36,14 +89,25 @@ var emailList = {
   	showUnread: false,
   	sortDateOrder: false,
 
+    //вывод письма подробно
+
   	showMail: function(index) {
 
-  		document.getElementById("email-content").innerHTML = this.emailList[index].content;
-      document.getElementById("email-subject").innerHTML = this.emailList[index].subject;
-      document.getElementById("email-fromName").innerHTML = this.emailList[index].fromName;
-      document.getElementById("email-fromEmail").innerHTML = this.emailList[index].fromEmail;
-      document.getElementById("email-dateReceived").innerHTML = formatDate(this.emailList[index].dateReceived);
+      var that = this;
+
+      animationHide('content', 1000, function() {
+
+        document.getElementById("email-content").innerHTML = that.emailList[index].content;
+        document.getElementById("email-subject").innerHTML = that.emailList[index].subject;
+        document.getElementById("email-fromName").innerHTML = that.emailList[index].fromName;
+        document.getElementById("email-fromEmail").innerHTML = that.emailList[index].fromEmail;
+        document.getElementById("email-dateReceived").innerHTML = formatDate(that.emailList[index].dateReceived);
+
+        animationShow('content', 1000);
+      });
   	},
+
+    //вывод одного письма в списке слева
 
     renderItem: function(email, index) {
 
@@ -60,6 +124,8 @@ var emailList = {
       emailDiv.onclick = function() { emailList.showMail(index); }
       document.getElementById("sidebar").appendChild(emailDiv);
     },
+
+    //вывод списка слева
 
   	renderList: function() {
 
@@ -85,11 +151,15 @@ var emailList = {
 		  });
   	},
 
+    //переключение непрочитанные/все
+
   	switchUnread: function() {
 
   		this.showUnread = !this.showUnread;
   		this.renderList();
   	},
+
+    //переключение осртировки по дате
 
   	sortDate: function() {
 
@@ -108,6 +178,8 @@ var emailList = {
   		this.sortDateOrder = !this.sortDateOrder;
   		this.renderList();
   	},
+
+    //начальная сортировка по дате
 
     sortDateDesc: function() {
 
@@ -137,10 +209,8 @@ xhr.onreadystatechange = function() {
     	}
   	}
 };
-darte = new Date();
-console.log(darte.getTime());
 
-//привязка событий
+//привязка событий к кнопкам "Показать непрочитанные" и "Сортировка по дате""
 
 switchUnreadElement = document.getElementById("switchUnread");
 switchUnreadElement.onclick = function() { 
